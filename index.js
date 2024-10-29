@@ -38,6 +38,9 @@ async function fetchMemeList() {
             const gameLike = element.querySelector('.apphub_CardRating')?.innerText.trim();
             const gameTitle = element.querySelector('.apphub_CardContentTitle')?.innerText.trim();
 
+
+            
+
             if (imageUrl && gameName) {
                 screenshotList.push({ gameName, imageUrl,gameLink,gameLike,gameTitle });
             }
@@ -60,13 +63,19 @@ async function postMemeToChannel() {
         
         // Kiểm tra nếu meme mới nhất chưa được gửi
         if (latestMeme.title !== lastMemeTitle) {
+          
+        const title = latestMeme.gameName || 'Không có tiêu đề';
+        const imageUrl = latestMeme.imageUrl || null; // Đặt thành null nếu không có URL
+        const link = latestMeme.gameLink || '#'; // Đặt liên kết mặc định
+        const description = latestMeme.gameTitle || '...';
+        const like = latestMeme.gameLike || '0';
             const memeEmbed = new EmbedBuilder()
-                .setTitle(latestMeme.gameName)
-                .setDescription(latestMeme.gameTitle)
-                .setImage(latestMeme.imageUrl)
-                .setURL(latestMeme.gameLink)
+                .setTitle(title)
+                .setDescription(description)
+                .setImage(imageUrl)
+                .setURL(link)
                 .setColor('#0099ff')
-                .setFooter({ text: `${latestMeme.gameLike} 👍` });
+                .setFooter({ text: `${like} 👍` });
 
             const channel = client.channels.cache.get(channelId);
             if (channel) {
