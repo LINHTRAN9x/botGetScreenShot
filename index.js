@@ -84,7 +84,7 @@ client.once('ready', () => {
     console.log('Bot is online!');
     
     postMemeToChannel();
-    setInterval(postMemeToChannel, 60 * 60 * 1000); 
+    setInterval(postMemeToChannel, 5000); 
 });
 
 client.login(token);
