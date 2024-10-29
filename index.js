@@ -52,9 +52,8 @@ async function fetchMemeList() {
 
 // Hàm gửi meme vào kênh nếu có meme mới
 async function postMemeToChannel() {
-    const memes = await fetchMemeList();
-    console.log(memes);
-    if (memes && memes.length > 0) {
+    try{
+        if (memes && memes.length > 0) {
         const latestMeme = memes[0];
         
         // Kiểm tra nếu meme mới nhất chưa được gửi
@@ -77,6 +76,12 @@ async function postMemeToChannel() {
             }
         }
     }
+    } catch (e){
+        console.error('Error posting meme to channel:', error);
+    }
+    const memes = await fetchMemeList();
+    //console.log(memes);
+    
 }
 
 // Sự kiện bot khởi động và kiểm tra meme mới mỗi 10 phút
