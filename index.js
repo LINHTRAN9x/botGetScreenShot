@@ -53,6 +53,8 @@ async function fetchMemeList() {
 // Hàm gửi meme vào kênh nếu có meme mới
 async function postMemeToChannel() {
     try{
+        const memes = await fetchMemeList();
+    //console.log(memes);
         if (memes && memes.length > 0) {
         const latestMeme = memes[0];
         
@@ -77,10 +79,9 @@ async function postMemeToChannel() {
         }
     }
     } catch (e){
-        console.error('Error posting meme to channel:', error);
+        console.error('Error posting meme to channel:', e);
     }
-    const memes = await fetchMemeList();
-    //console.log(memes);
+    
     
 }
 
