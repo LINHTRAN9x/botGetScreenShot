@@ -58,11 +58,11 @@ async function postMemeToChannel() {
     try {
         const meme = await fetchMemeList();
         if (meme.length > 0) { // Kiểm tra xem có meme nào không
-             const title = latestMeme.gameName || 'Không có tiêu đề';
-        const imageUrl = latestMeme.imageUrl || null; // Đặt thành null nếu không có URL
-        const link = latestMeme.gameLink || '#'; // Đặt liên kết mặc định
-        const description = latestMeme.gameTitle || '...';
-        const like = latestMeme.gameLike || '0';
+             const title = meme.gameName || 'Không có tiêu đề';
+        const imageUrl = meme.imageUrl || null; // Đặt thành null nếu không có URL
+        const link = meme.gameLink || '#'; // Đặt liên kết mặc định
+        const description = meme.gameTitle || '...';
+        const like = meme.gameLike || '0';
             const memeEmbed = new EmbedBuilder()
                 .setTitle(title)
                 .setDescription(description)
