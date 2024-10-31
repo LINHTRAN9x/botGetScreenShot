@@ -55,16 +55,10 @@ async function fetchMemeList() {
 
 // Hàm gửi meme vào kênh nếu có meme mới
 async function postMemeToChannel() {
-    try{
-        const memes = await fetchMemeList();
-    //console.log(memes);
-        if (memes && memes.length > 0) {
-        const latestMeme = memes[0];
-        
-        // Kiểm tra nếu meme mới nhất chưa được gửi
-        if (latestMeme.title !== lastMemeTitle) {
-          
-        const title = latestMeme.gameName || 'Không có tiêu đề';
+    try {
+        const meme = await fetchMemeList();
+        if (meme.length > 0) { // Kiểm tra xem có meme nào không
+             const title = latestMeme.gameName || 'Không có tiêu đề';
         const imageUrl = latestMeme.imageUrl || null; // Đặt thành null nếu không có URL
         const link = latestMeme.gameLink || '#'; // Đặt liên kết mặc định
         const description = latestMeme.gameTitle || '...';
@@ -76,23 +70,22 @@ async function postMemeToChannel() {
                 .setURL(link)
                 .setColor('#0099ff')
                 .setFooter({ text: `${like} 👍` });
+          
 
             const channel = client.channels.cache.get(channelId);
             if (channel) {
-                channel.send({ embeds: [memeEmbed] });
-                // Cập nhật lastMemeTitle để tránh gửi trùng
-                lastMemeTitle = latestMeme.title;
+                await channel.send({ embeds: [memeEmbed] });
             } else {
                 console.error('Channel not found');
             }
+        } else {
+            console.log('No memes found');
         }
+    } catch (error) {
+        console.error('Error posting meme to channel:', error);
     }
-    } catch (e){
-        console.error('Error posting meme to channel:', e);
-    }
-    
-    
 }
+
 
 // Sự kiện bot khởi động và kiểm tra meme mới mỗi 10 phút
 client.once('ready', () => {
