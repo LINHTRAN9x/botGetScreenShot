@@ -56,13 +56,16 @@ async function fetchMemeList() {
 // Hàm gửi meme vào kênh nếu có meme mới
 async function postMemeToChannel() {
     try {
-        const meme = await fetchMemeList();
-        if (meme.length > 0) { // Kiểm tra xem có meme nào không
-             const title = meme.gameName || 'Không có tiêu đề';
-        const imageUrl = meme.imageUrl || null; // Đặt thành null nếu không có URL
-        const link = meme.gameLink || '#'; // Đặt liên kết mặc định
-        const description = meme.gameTitle || '...';
-        const like = meme.gameLike || '0';
+        const memes = await fetchMemeList(); // Lấy danh sách meme
+        if (memes.length > 0) { // Kiểm tra xem có meme nào không
+            const meme = memes[0]; // Chỉ lấy meme đầu tiên
+
+            const title = meme.gameName || 'Không có tiêu đề';
+            const imageUrl = meme.imageUrl || null;
+            const link = meme.gameLink || '#';
+            const description = meme.gameTitle || '...';
+            const like = meme.gameLike || '0';
+
             const memeEmbed = new EmbedBuilder()
                 .setTitle(title)
                 .setDescription(description)
@@ -70,7 +73,6 @@ async function postMemeToChannel() {
                 .setURL(link)
                 .setColor('#0099ff')
                 .setFooter({ text: `${like} 👍` });
-          
 
             const channel = client.channels.cache.get(channelId);
             if (channel) {
